@@ -6,6 +6,7 @@ declare module 'egg' {
   }
 
   export interface IModel {
-    Grid: Model<Jigsaw.Grid & Document> & Relationship.ModelStatic
+    Grid: Model<Jigsaw.Grid & Document>
+    User: Model<Jigsaw.User & Document>
   }
 }

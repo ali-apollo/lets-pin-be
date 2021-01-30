@@ -20,6 +20,8 @@ export default (app: Application) => {
       of: [[Number]],
     },
     players: [PlayerSchema],
+    startTime: Number,
+    difficult: Number
   });
 
   return mongoose.model<Jigsaw.Grid & Document>('Grid', GridSchema);

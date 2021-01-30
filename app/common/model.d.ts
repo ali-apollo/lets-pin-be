@@ -1,5 +1,11 @@
 declare namespace Jigsaw {
-  type Data = number[][];
+  type Data = (number | null)[][];
+
+  type Config = {
+    id: string;
+    difficult?: 3 | 4 | 5;
+    players: { id: string; name: string }[];
+  };
 
   type Player = {
     id: string;
@@ -7,17 +13,21 @@ declare namespace Jigsaw {
     pics: number[];
   };
 
+  type DataSource = Map<string, Data>;
+
   interface Grid {
     roomID: string;
     currentVer: string;
     checkData: Data;
     verMatrix: string[][];
     players: Player[];
-    data: Map<string, Data>
+    data: DataSource;
+    difficult: number;
+    startTime: number;
   }
 
   interface User {
-    username: string
-    password: string
+    username: string;
+    password: string;
   }
 }
