@@ -23,7 +23,7 @@ export default (appInfo: EggAppInfo) => {
 
   const mongoose = {
     client: {
-      url: 'mongodb://user:user@127.0.0.1:27/jigsaw',
+      url: 'mongodb://user:user@127.0.0.1:27017/jigsaw',
       options: {},
     },
   };

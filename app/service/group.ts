@@ -77,8 +77,8 @@ export default class Group extends Service {
     const user = room.players.find((item) => item.id === userID);
 
     if (!user) {
-      throw '用户不存在'
-    };
+      throw '用户不存在';
+    }
 
     if (user.role === 'leader') {
       // removeRoom
@@ -112,7 +112,11 @@ export default class Group extends Service {
     return { roomName: room.roomName, roomId: room.roomID, members: room.players };
   }
 
-  removeRoom() {
-    // emit to 其他人: 队伍已解散
-  }
+  // public async removeRoom(userID: string, roomID: string) {
+  //   // const room: Jigsaw.Group = await this.ctx.model.Group.findOne({
+  //   //   roomID,
+  //   // });
+
+  //   // emit to 其他人: 队伍已解散
+  // }
 }
