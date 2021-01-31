@@ -8,6 +8,7 @@ export default (app: Application) => {
     id: String,
     name: String,
     pics: [Number],
+    role: String,
   });
 
   const GridSchema = new mongoose.Schema({
@@ -21,7 +22,7 @@ export default (app: Application) => {
     },
     players: [PlayerSchema],
     startTime: Number,
-    difficult: Number
+    difficult: Number,
   });
 
   return mongoose.model<Jigsaw.Grid & Document>('Grid', GridSchema);

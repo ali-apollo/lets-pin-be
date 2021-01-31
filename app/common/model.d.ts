@@ -1,15 +1,24 @@
 declare namespace Jigsaw {
   type Data = (number | null)[][];
 
+  type Role = 'leader' | 'member';
+
   type Config = {
     id: string;
     difficult?: 3 | 4 | 5;
-    players: { id: string; name: string }[];
+    players: Member[];
+  };
+
+  type Member = {
+    id: string;
+    name: string;
+    role: Role;
   };
 
   type Player = {
     id: string;
     name: string;
+    role: Role;
     pics: number[];
   };
 
@@ -31,5 +40,14 @@ declare namespace Jigsaw {
   interface User {
     username: string;
     password: string;
+  }
+
+  interface Group {
+    roomID: string;
+    roomName: string;
+    players: Member[];
+    difficult: difficultType;
+    score: number;
+    createTime: number;
   }
 }

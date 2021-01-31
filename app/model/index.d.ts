@@ -8,5 +8,6 @@ declare module 'egg' {
   export interface IModel {
     Grid: Model<Jigsaw.Grid & Document>
     User: Model<Jigsaw.User & Document>
+    Group:  Model<Jigsaw.Group & Document>
   }
 }
