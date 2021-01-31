@@ -38,6 +38,7 @@ declare namespace Jigsaw {
   }
 
   interface User {
+    userID: string;
     username: string;
     password: string;
   }

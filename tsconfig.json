@@ -26,7 +26,8 @@
     "app.ts",
     "app/**/*",
     "config/**/*",
-    "test/**/*.ts"
+    "test/**/*.ts",
+    "typings/**/*"
   ],
   "exclude": [
     "app/public",

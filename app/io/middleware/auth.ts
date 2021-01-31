@@ -5,6 +5,7 @@ export default function Auth(): any {
     // 你可以获取 config 的配置：
     // const config = ctx.app.config;
     // config.xxx....
+    console.log(ctx)
     await next();
   };
 }

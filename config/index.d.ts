@@ -1,6 +1,7 @@
 import { Context, EggAppConfig, PowerPartial, Service } from 'egg';
 import { Document, Model, Mongoose } from 'mongoose';
 import { SuperTest, Test } from 'supertest';
+import { Socket, Server } from 'socket.io';
 import ExportConfigDefault from './config.default';
 import ExportConfigLocal from './config.local';
 import ExportConfigProd from './config.prod';
@@ -21,7 +22,11 @@ declare module 'egg' {
     };
     mongoose: Mongoose;
     config: IAppConfig;
+    io: Server;
     httpRequest: () => SuperTest<Test>;
+  }
+  export interface Context {
+    socket: Socket;
   }
   export interface Controller {
     config: IAppConfig;
