@@ -11,6 +11,7 @@ interface AddEventItem {
   type: Operator.add;
   nextPos: number[];
   value: number;
+  currentVer: string;
   preVer: string; // 基于哪个版本进行的修改
 }
 
@@ -18,11 +19,13 @@ interface MoveEventItem {
   type: Operator.move;
   prePos: number[];
   nextPos: number[];
+  currentVer: string;
   preVer: string; // 基于哪个版本进行的修改
 }
 
 interface RemoveEventItem {
   type: Operator.remove;
   prePos: number[];
+  currentVer: string;
   preVer: string; // 基于哪个版本进行的修改
 }

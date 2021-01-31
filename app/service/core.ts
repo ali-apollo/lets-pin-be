@@ -120,6 +120,9 @@ export default class Core extends Service {
     return newPlayers;
   }
 
+  /**
+   * 获取最新数据和玩家信息
+   */
   public async pull(roomID: string) {
     const roomData = await this.getData(roomID);
 
@@ -141,10 +144,9 @@ export default class Core extends Service {
     };
   }
 
-  async commit(data: Jigsaw.Data | null, roomData: Jigsaw.Grid) {
+  async commit(data: Jigsaw.Data | null, roomData: Jigsaw.Grid, versionId: string) {
     if (!data) return;
 
-    const versionId = GridUtil.getVersionId(roomData.roomID);
     const oldData = roomData.data.get(roomData.currentVer);
 
     if (!oldData) return;
@@ -168,18 +170,10 @@ export default class Core extends Service {
     return versionId;
   }
 
-  public async change(roomID: string, uid: string, event: EventItem) {
-    const roomData = await this.getData(roomID);
-    const gridUtil = new GridUtil(
-      roomData.data,
-      roomData.currentVer,
-      roomData.roomID,
-      roomData.players
-    );
-
-    // 判断操作是否超时
-    // TODO
-
+  /**
+   * 数据操作层
+   */
+  async dao(event: EventItem, gridUtil: GridUtil, roomData: Jigsaw.Grid, uid: string) {
     const verify = gridUtil.verifyAction(uid, event);
     if (!verify) {
       throw Error('动作不合法');
@@ -196,7 +190,7 @@ export default class Core extends Service {
       }
 
       const data = gridUtil.add(event.nextPos, event.value);
-      await this.commit(data, roomData);
+      await this.commit(data, roomData, event.currentVer);
     }
 
     if (event.type === Operator.remove) {
@@ -210,7 +204,7 @@ export default class Core extends Service {
       }
 
       const data = gridUtil.remove(event.prePos);
-      await this.commit(data, roomData);
+      await this.commit(data, roomData, event.currentVer);
     }
 
     if (event.type === Operator.move) {
@@ -230,7 +224,24 @@ export default class Core extends Service {
       }
 
       const data = gridUtil.move(event.prePos, event.nextPos);
-      await this.commit(data, roomData);
+      await this.commit(data, roomData, event.currentVer);
+    }
+  }
+
+  public async change(roomID: string, uid: string, events: EventItem[]) {
+    const roomData = await this.getData(roomID);
+    const gridUtil = new GridUtil(
+      roomData.data,
+      roomData.currentVer,
+      roomData.roomID,
+      roomData.players
+    );
+
+    // 判断现在提交的操作是否超时
+    // TODO
+
+    for (let event of events) {
+      await this.dao(event, gridUtil, roomData, uid);
     }
   }
 }
