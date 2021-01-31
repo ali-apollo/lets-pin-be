@@ -1,0 +1,15 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ./database/db/data:/data/db
+      - ./database/db/log:/var/log/mongodb
+      - ./database/mongo-entrypoint:/docker-entrypoint-initdb.d
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=jigsaw
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=user

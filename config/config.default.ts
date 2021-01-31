@@ -23,10 +23,10 @@ export default (appInfo: EggAppInfo) => {
 
   const mongoose = {
     client: {
-      url: 'mongodb://127.0.0.1/example',
+      url: 'mongodb://user:user@127.0.0.1:27/jigsaw',
       options: {},
     },
-  }
+  };
 
   // the return config will combines to EggAppConfig
   return {
