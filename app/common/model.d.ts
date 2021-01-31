@@ -13,6 +13,8 @@ declare namespace Jigsaw {
     pics: number[];
   };
 
+  type difficultType = 3 | 4 | 5;
+
   type DataSource = Map<string, Data>;
 
   interface Grid {
@@ -22,7 +24,7 @@ declare namespace Jigsaw {
     verMatrix: string[][];
     players: Player[];
     data: DataSource;
-    difficult: number;
+    difficult: difficultType;
     startTime: number;
   }
 

@@ -1,7 +1,7 @@
 import { Service } from 'egg';
 import { Document } from 'mongoose';
 import { Operator, EventItem } from '../common/interface';
-import { GridUtil } from '../common/lib';
+import { GridUtil, gameTime } from '../common/lib';
 
 import * as lodash from 'lodash';
 import * as dayjs from 'dayjs';
@@ -43,7 +43,7 @@ export default class Core extends Service {
       verMatrix,
       data,
       difficult,
-      startTime: dayjs().unix(),
+      startTime: dayjs().valueOf(),
     } as Jigsaw.Grid);
 
     await gridModel.save(() => {
@@ -70,7 +70,7 @@ export default class Core extends Service {
   }
 
   public async getPrice(roomID: string) {
-    const endTime = dayjs().unix();
+    const endTime = dayjs().valueOf();
     const roomData = await this.getData(roomID);
 
     const data = roomData.data.get(roomData.currentVer);
@@ -229,6 +229,7 @@ export default class Core extends Service {
   }
 
   public async change(roomID: string, uid: string, events: EventItem[]) {
+    const endTime = dayjs().valueOf();
     const roomData = await this.getData(roomID);
     const gridUtil = new GridUtil(
       roomData.data,
@@ -238,7 +239,11 @@ export default class Core extends Service {
     );
 
     // 判断现在提交的操作是否超时
-    // TODO
+    const time = endTime - roomData.startTime;
+
+    if (time > gameTime[roomData.difficult]) {
+      throw Error('操作已过期');
+    }
 
     for (let event of events) {
       await this.dao(event, gridUtil, roomData, uid);

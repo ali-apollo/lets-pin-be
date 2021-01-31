@@ -2,7 +2,7 @@ import produce from 'immer';
 import { Operator, EventItem } from './interface';
 
 import * as lodash from 'lodash';
-import * as dayjs from 'dayjs'
+import * as dayjs from 'dayjs';
 
 export class GridUtil {
   currentVer: string;
@@ -23,7 +23,7 @@ export class GridUtil {
   }
 
   static getVersionId(roomID: string) {
-    return lodash.uniqueId(`${roomID}_${dayjs().unix()}`);
+    return lodash.uniqueId(`${roomID}_${dayjs().valueOf()}`);
   }
 
   /**
@@ -132,3 +132,9 @@ export class GridUtil {
     });
   }
 }
+
+export const gameTime = {
+  3: 60 * 1000,
+  4: 120 * 1000,
+  5: 240 * 1000, // 毫秒
+};
