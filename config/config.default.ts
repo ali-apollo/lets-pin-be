@@ -33,6 +33,20 @@ export default (appInfo: EggAppInfo) => {
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
   };
 
+  // token秘钥
+  config.jwt = {
+    secret: 'ali-apollo',
+  }
+
+  // 暂时关闭安全设置
+  config.security = {
+    csrf: {
+      enable: false,
+      ignoreJSON: true
+    },
+    domainWhiteList: ['*']
+  }
+
   // the return config will combines to EggAppConfig
   return {
     io,
