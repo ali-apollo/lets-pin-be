@@ -12,24 +12,37 @@ export default class User extends Service {
 
   public async doSignup(username, password) {
     try {
-      return this.checkSignuo(username, password)
+      return this.checkSignup(username, password)
     } catch (error) {
       throw error
     }
   }
 
-  verifyPassword(username, password) {
+  async verifyPassword(username, password) {
     console.log(username, password)
-    const ret = Math.random()
-    if(ret < 0.33) throw '用户不存在'
-    if(ret < 0.66) throw '账号或密码错误'
+    const isUserExit = await this.ctx.model.User.findOne({ username })
+    if(!isUserExit) throw '用户不存在'
+    
+    const ret = await this.ctx.model.User.findOne({ username, password })
+    if(!ret) throw '账号或密码错误'
     return true
   }
 
-  checkSignuo(username, password) {
+  async checkSignup(username, password) {
     console.log(username, password)
-    const ret = Math.random()
-    if(ret < 0.5) throw '用户已存在'
-    return true
+    const isUserExit = await this.ctx.model.User.findOne({ username })
+    if(isUserExit) throw '用户已存在'
+
+    const user = {
+      userId: username,
+      username,
+      password
+    }
+    try {
+      this.ctx.model.User.create(user)
+      return true
+    } catch (error) {
+      throw error
+    }
   }
 }
